@@ -1,0 +1,100 @@
+﻿@model List<PetGrooming.Models.Pet>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<a href="/Pet/New" class="btn btn-primary headtop" title="Add">Add Pet</a>
+<div class="panel panel-primary top">
+    <div class="panel-heading header-color">
+        Pets
+    </div>
+    <div class="panel-body">
+        @*<div>
+                Search functionality for Pets textbox and button will be here
+            </div>*@
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Species</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var pet in @Model)
+                    {
+                        var myModal = "myModal" + pet.PetID;
+                        <tr>
+                            <td>
+                                <a title="View" href="/Pet/Show/@pet.PetID"> @pet.PetName </a>
+                            </td>
+                            <td>
+                                @pet.PetWeight <span> Kg </span>
+                            </td>
+                            <td>
+                                @pet.PetColor
+                            </td>
+                            <td>
+                                @pet.Species.Name
+                            </td>
+                            <td>
+                                <a href="/Pet/Update/@pet.PetID" class="btn btn-primary btn-sm" title="Edit">Edit</a>
+                                <button type="button" class="btn btn-danger btn-sm" data-modal-action="openconfimdialog" data-toggle="modal" data-target="#@myModal">
+                                    Delete
+                                </button>
+                                <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete: <span><b>@pet.PetName </b></span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" data-id="@pet.PetID" data-modal-action="yes">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script>
+    var petId;
+
+    $("[data-modal-action=yes]").click(function () {
+        petId = $(this).attr("data-id");
+        deletePet(petId)  //calling delete method
+    });
+
+    //Function for delete species
+    function deletePet(speciesId) {
+        var postData = {
+            id: petId
+        };
+         $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: 'Post',
+                    data: postData
+                })
+                .done(function() {
+                    location.reload();
+               });
+    }
+    </script>
+}
+

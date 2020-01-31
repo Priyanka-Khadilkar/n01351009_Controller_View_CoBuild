@@ -1,0 +1,49 @@
+﻿@model  PetGrooming.Models.Pet
+@{
+    ViewBag.Title = "Show";
+}
+
+<div class="panel panel-primary top">
+    <div class="panel-heading header-color">
+        Pet Detail
+        <a href="/Pet/Delete/@Model.PetID" class="deleteicon" title="Click to Delete"><span class="glyphicon glyphicon-trash"></span></a>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="POST" action="/Pet/New">
+            <div class="form-group">
+                <label class="control-label col-md-2">Pet Name</label>
+                <div class="col-md-10">
+                    <a href="/Pet/Update/@Model.PetID" title="Update"><span>@Model.PetName</span></a>
+                </div>
+            </div>
+            <div>
+                <label class="control-label col-md-2">Species</label>
+                <div class="col-md-10 dropdownStyle">
+                    <span>@Model.Species.Name</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Pet Weight</label>
+                <div class="col-md-10">
+                    <span>@Model.PetWeight</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Pet Color</label>
+                <div class="col-md-10">
+                    <span>@Model.PetColor</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Notes</label>
+                <div class="col-md-10">
+                    <span>@Model.PetNotes</span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "List", "Pet", new { htmlAttributes = new { @class = "" } })
+</div>

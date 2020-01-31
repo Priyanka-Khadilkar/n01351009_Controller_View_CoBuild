@@ -1,0 +1,69 @@
+﻿@model PetGrooming.Models.ViewModels.PetViewModel
+
+@{
+    ViewBag.Title = "Update";
+}
+
+<div class="panel panel-primary top">
+    <div class="panel-heading header-color">
+        Update Pet
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="POST" action="/Pet/Update/@Model.pet.PetID">
+            <div class="form-group">
+                <label class="control-label col-md-2">Pet Name</label>
+                <div class="col-md-10">
+                    <input id="PetName" type="text" value="@Model.pet.PetName" class="form-control" name="PetName" />
+                </div>
+            </div>
+            <div>
+                <label class="control-label col-md-2">Species</label>
+                <div class="col-md-10 dropdownStyle">
+                    <select id="SpeciesID" type="text" class="form-control" name="SpeciesID">
+                        @{
+
+                            foreach (var species in Model.species)
+                            {
+                                string selected = "";
+                                if (species.SpeciesID == Model.pet.SpeciesID)
+                                {
+                                    selected = "selected";
+                                }
+                                <option value="@species.SpeciesID" @selected>@species.Name</option>
+
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Pet Weight</label>
+                <div class="col-md-10">
+                    <input id="PetWeight" value="@Model.pet.PetWeight" class="form-control" type="text" name="PetWeight" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Pet Color</label>
+                <div class="col-md-10">
+                    <input id="PetColor" value="@Model.pet.PetColor" class="form-control" type="text" name="PetColor" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Notes</label>
+                <div class="col-md-10">
+                    <textarea id="PetNotes" class="form-control" name="PetNotes">
+                      @Model.pet.PetNotes
+                   </textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "List", "Pet", new { htmlAttributes = new { @class = "" } })
+</div>

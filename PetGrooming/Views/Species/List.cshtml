@@ -1,0 +1,87 @@
+﻿@model List<PetGrooming.Models.Species>
+@{
+    ViewBag.Title = "Species List";
+}
+
+<a href="/Species/New" class="btn btn-primary headtop" title="Add">Add Species</a>
+<div class="panel panel-primary top">
+    <div class="panel-heading header-color">
+        Species
+    </div>
+    <div class="panel-body">
+        @*<div>
+                Search functionality for Species textbox and button will be here
+            </div>*@
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var species in @Model)
+                    {
+                        var myModal = "myModal" + species.SpeciesID;
+                        <tr>
+                            <td>
+                                <a title="View" href="/Species/Show/@species.SpeciesID"> @species.Name</a>
+                            </td>
+                            <td>
+                                <a href="/Species/Update/@species.SpeciesID" class="btn btn-primary btn-sm" title="Edit">Edit</a>
+                                <button type="button" class="btn btn-danger btn-sm" data-modal-action="openconfimdialog" data-toggle="modal" data-target="#@myModal">
+                                    Delete
+                                </button>
+                                <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete: <span><b>@species.Name</b></span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" data-id="@species.SpeciesID" data-modal-action="yes">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    var speciesId;
+
+    $("[data-modal-action=yes]").click(function () {
+        speciesId = $(this).attr("data-id");
+        deleteSpecies(speciesId)  //calling delete method
+    });
+
+    //Function for delete species
+    function deleteSpecies(speciesId) {
+        var postData = {
+            id: speciesId
+        };
+         $.ajax({
+                    url: '@Url.Action("Delete")',
+                    type: 'Post',
+                    data: postData
+                })
+                .done(function() {
+                    location.reload();
+               });
+    }
+    </script>
+}
